@@ -1,2 +1,0 @@
-# FormFitAI
-Capstone Project
