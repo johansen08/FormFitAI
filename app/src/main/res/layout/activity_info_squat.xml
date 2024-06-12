@@ -97,6 +97,7 @@
         \n(core muscles)."/>
 
     <Button
+        android:id="@+id/button_start_check"
         android:layout_width="265dp"
         android:layout_height="61dp"
         android:layout_below="@+id/desc_pull_up"

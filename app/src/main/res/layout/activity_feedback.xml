@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.infoPushup.InfoPushupActivity">
+    tools:context=".ui.feedback.FeedbackActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -35,15 +35,28 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/congratulations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:text="Selamat! Anda telah\nmenyelesaikan satu set"/>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/info_card_pull_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/congratulations"
         app:cardCornerRadius="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginTop="20dp">
+
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -51,62 +64,15 @@
             android:layout_below="@+id/toolbar">
 
             <ImageView
-                android:id="@+id/push_up_image"
+                android:id="@+id/pull_up_image"
                 android:layout_width="wrap_content"
                 android:layout_height="180dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/push_up"
+                android:src="@drawable/fit_man"
                 android:background="@drawable/rounded_image"/>
-
-            <TextView
-                android:id="@+id/push_up_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="130dp"
-                android:layout_marginStart="30dp"
-                android:layout_alignStart="@id/push_up_image"
-                android:text="Push-Up"
-                android:textSize="30sp"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/desc_pull_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/info_card_pull_up"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
-        android:lineSpacingExtra="5dp"
-        android:textSize="22sp"
-        android:text="Push-up adalah latihan kekuatan
-        \ntubuh bagian atas yang
-        \nmelibatkan menurunkan dan
-        \nmengangkat tubuh menggunakan
-        \notot lengan dan dada, dengan
-        \nposisi tubuh sejajar dengan lantai
-        \ndan tangan diletakkan di bawah
-        \nbahu. Push-up sering dilakukan
-        \ntanpa peralatan tambahan,
-        \nsehingga dapat dilakukan di
-        \nmana saja."/>
-
-    <Button
-        android:id="@+id/button_start_check"
-        android:layout_width="265dp"
-        android:layout_height="61dp"
-        android:layout_below="@+id/desc_pull_up"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/button"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:text="Mulai Check"
-        android:textSize="20sp" />
 
 </RelativeLayout>
