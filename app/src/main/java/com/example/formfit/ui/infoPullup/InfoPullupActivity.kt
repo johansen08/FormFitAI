@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import com.example.formfit.R
-import com.example.formfit.ui.camera.CameraActivity
+import com.example.formfit.ui.camera.pullup.PullupCameraActivity
 
 class InfoPullupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +13,7 @@ class InfoPullupActivity : AppCompatActivity() {
         setContentView(R.layout.activity_info_pullup)
         val button: Button = findViewById(R.id.button_start_check)
         button.setOnClickListener {
-            val intent = Intent(this, CameraActivity::class.java)
+            val intent = Intent(this, PullupCameraActivity::class.java)
             startActivity(intent)
         }
     }

@@ -1,4 +1,4 @@
-package com.example.formfit.ui.camera
+package com.example.formfit.ui.camera.squat
 
 import android.Manifest
 import android.content.Intent
@@ -18,7 +18,7 @@ import com.example.formfit.ui.feedback.FeedbackActivity
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraActivity : AppCompatActivity() {
+class SquatCameraActivity : AppCompatActivity() {
 
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var previewView: PreviewView
@@ -26,7 +26,7 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
+        setContentView(R.layout.activity_pullup_camera)
 
         previewView = findViewById(R.id.camera_preview)
         readMoreButton = findViewById(R.id.btn_read_more)
@@ -37,7 +37,8 @@ class CameraActivity : AppCompatActivity() {
             startCamera()
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+            )
         }
 
         readMoreButton.setOnClickListener {

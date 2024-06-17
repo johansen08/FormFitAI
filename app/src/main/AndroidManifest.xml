@@ -16,10 +16,16 @@
         android:theme="@style/Theme.FormFit"
         tools:targetApi="31">
         <activity
+            android:name=".ui.camera.squat.SquatCameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.camera.pushup.PushupCameraActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.feedback.FeedbackActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.camera.CameraActivity"
+            android:name=".ui.camera.pullup.PullupCameraActivity"
             android:exported="false" />
         <activity
             android:name=".ui.splashScreen.SplashScreenActivity"
