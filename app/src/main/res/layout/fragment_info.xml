@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.info.InfoFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" >
+
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/FormFitAI"
+            android:text="FormFitAI"/>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_pull_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        app:cardCornerRadius="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar">
+
+            <ImageView
+                android:id="@+id/pull_up_image"
+                android:layout_width="wrap_content"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pull_up"
+                android:background="@drawable/rounded_image"/>
+
+            <TextView
+                android:id="@+id/pull_up_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="130dp"
+                android:layout_marginStart="30dp"
+                android:layout_alignStart="@id/pull_up_image"
+                android:text="Pull-Up"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_push_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card_pull_up"
+        app:cardCornerRadius="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar">
+
+            <ImageView
+                android:id="@+id/push_up_image"
+                android:layout_width="wrap_content"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/push_up"
+                android:background="@drawable/rounded_image"/>
+
+            <TextView
+                android:id="@+id/push_up_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="130dp"
+                android:layout_marginStart="30dp"
+                android:layout_alignStart="@id/push_up_image"
+                android:text="Push-Up"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_squat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card_push_up"
+        app:cardCornerRadius="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar">
+
+            <ImageView
+                android:id="@+id/squat_image"
+                android:layout_width="wrap_content"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/squat"
+                android:background="@drawable/rounded_image"/>
+
+            <TextView
+                android:id="@+id/squat_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="130dp"
+                android:layout_marginStart="30dp"
+                android:layout_alignStart="@id/squat_image"
+                android:text="Squat"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

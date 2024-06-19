@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/FormFitAI"
+            android:text="FormFitAI"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:id="@+id/countdown_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="10"
+        android:textColor="@android:color/white"
+        android:textSize="100sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/feedback_buttom_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posisi Pinggul: -"
+        android:textSize="15sp"
+        android:layout_below="@id/camera_preview"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/feedback_hand_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posisi Tangan: -"
+        android:textSize="15sp"
+        android:layout_below="@id/feedback_buttom_position"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/feedback_head_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posisi Kepala: -"
+        android:textSize="15sp"
+        android:layout_below="@id/feedback_hand_position"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/pull_up_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jumlah Pull Up: -"
+        android:textSize="15sp"
+        android:layout_below="@id/feedback_head_position"
+        android:layout_marginTop="10dp" />
+
+    <com.example.formfit.ui.camera.OverlayView
+        android:id="@+id/overlay_view"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btn_read_more"
+        android:layout_width="265dp"
+        android:layout_height="61dp"
+        android:layout_below="@+id/pull_up_count"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/button"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Detail"
+        android:textSize="20sp" />
+
+</RelativeLayout>

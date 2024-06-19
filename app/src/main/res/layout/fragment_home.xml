@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.HomeFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" >
+
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/FormFitAI"
+            android:text="FormFitAI"/>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/screen_logo"
+        android:layout_width="171dp"
+        android:layout_height="140dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="159dp"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/text_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to"
+        android:layout_below="@+id/screen_logo"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/text_formFit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FormFitAI"
+        android:layout_below="@+id/text_welcome"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/text_desc1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_formFit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Mulai check dengan FormFitAI sekarang."/>
+
+    <TextView
+        android:id="@+id/text_desc2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_desc1"
+        android:layout_centerHorizontal="true"
+        android:text="Kamu bisa check seputar posture dan"/>
+
+    <TextView
+        android:id="@+id/text_desc3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_desc2"
+        android:layout_centerHorizontal="true"
+        android:text="gerakan olahraga."/>
+
+    <Button
+        android:id="@+id/option_button"
+        android:layout_width="265dp"
+        android:layout_height="61dp"
+        android:layout_below="@+id/text_desc3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/button"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Pilih Gerakan"
+        android:textSize="20sp" />
+
+
+
+
+</RelativeLayout>
