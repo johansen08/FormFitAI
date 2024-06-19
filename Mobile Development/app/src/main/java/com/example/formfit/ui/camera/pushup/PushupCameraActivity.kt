@@ -44,7 +44,7 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
     private var preview: Preview? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
-    private var cameraFacing = CameraSelector.LENS_FACING_FRONT
+    private var cameraFacing = CameraSelector.LENS_FACING_BACK
 
     private lateinit var overlay: OverlayView
     private lateinit var feedback_buttom_position: TextView
@@ -60,6 +60,13 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
     private lateinit var countdownTextView: TextView
 
     private var isAnalyzing = false
+
+    private val predictionUpDownList = mutableListOf<Float>()
+    private val predictionBottomPositionList = mutableListOf<Float>()
+    private val predictionHandPositionList = mutableListOf<Float>()
+    private val predictionHeadPositionList = mutableListOf<Float>()
+
+    private val repetitionResults = mutableListOf<FloatArray>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +92,7 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
 
         readMoreButton.setOnClickListener {
             val intent = Intent(this, FeedbackActivity::class.java)
+            intent.putExtra("repetitionResults", repetitionResults.toTypedArray())
             startActivity(intent)
         }
 
@@ -202,9 +210,6 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
     override fun onResults(resultBundle: PoseLandmarkerHelper.ResultBundle) {
         runOnUiThread {
             if (::overlay.isInitialized) {
-                feedback_buttom_position.text = resultBundle.predictionBottomPosition
-                feedback_hand_position.text = resultBundle.predictionHandPosition
-                feedback_head_position.text = resultBundle.predictionHeadPosition
                 overlay.setResults(
                     resultBundle.results.first(),
                     resultBundle.inputImageHeight,
@@ -213,12 +218,75 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
                 )
                 overlay.invalidate()
 
-                if (resultBundle.predictionUpDown == "Down") {
+                // Collect predictions for the current frame
+                predictionUpDownList.add(resultBundle.labelUpDown)
+                predictionBottomPositionList.add(resultBundle.hipAngle)
+                predictionHandPositionList.add(resultBundle.handDistance)
+                predictionHeadPositionList.add(resultBundle.headAngle)
+
+                if (resultBundle.labelUpDown <= 0.9 && !resultBundle.labelBottomPosition.isNaN() && !resultBundle.labelHandPosition.isNaN() && !resultBundle.labelHeadPosition.isNaN()) {
                     isPushUpDown = true
-                } else if (resultBundle.predictionUpDown == "Up" && isPushUpDown) {
+                    val avgBottomPosition = predictionBottomPositionList.average().toFloat()
+                    val avgHandPosition = predictionHandPositionList.average().toFloat()
+                    val avgHeadPosition = predictionHeadPositionList.average().toFloat()
+
+                    if (avgBottomPosition >= 165) {
+                        feedback_buttom_position.text = "Pinggang: Benar"
+                    } else {
+                        feedback_buttom_position.text = "Pinggang: Salah"
+                    }
+                    if (avgHandPosition <= 1.3) {
+                        feedback_hand_position.text = "Tangan: Benar"
+                    } else {
+                        feedback_hand_position.text = "Tangan: Salah"
+                    }
+                    if (avgHeadPosition >= 140) {
+                        feedback_head_position.text = "Kepala: Benar"
+                    } else {
+                        feedback_head_position.text = "Kepala: Salah"
+                    }
+                } else if (resultBundle.labelUpDown > 0.9 && isPushUpDown && !resultBundle.labelBottomPosition.isNaN() && !resultBundle.labelHandPosition.isNaN() && !resultBundle.labelHeadPosition.isNaN()) {
                     pushUpCount++
                     isPushUpDown = false
-                    pushUpCountTextView.text = "Push-Up Count: $pushUpCount"
+
+                    // Calculate averages
+                    val avgBottomPosition = predictionBottomPositionList.average().toFloat()
+                    val avgHandPosition = predictionHandPositionList.average().toFloat()
+                    val avgHeadPosition = predictionHeadPositionList.average().toFloat()
+
+                    if (avgBottomPosition >= 165) {
+                        feedback_buttom_position.text = "Pinggang: Benar"
+                    } else {
+                        feedback_buttom_position.text = "Pinggang: Salah"
+                    }
+                    if (avgHandPosition <= 1.3) {
+                        feedback_hand_position.text = "Tangan: Benar"
+                    } else {
+                        feedback_hand_position.text = "Tangan: Salah"
+                    }
+                    if (avgHeadPosition >= 140) {
+                        feedback_head_position.text = "Kepala: Benar"
+                    } else {
+                        feedback_head_position.text = "Kepala: Salah"
+                    }
+
+                    // Create result array
+                    val resultArray = floatArrayOf(avgBottomPosition, avgHandPosition, avgHeadPosition)
+
+                    // Log result array
+                    Log.d(TAG, "Result Array: ${resultArray.contentToString()}")
+
+                    // Add result array to repetition results list
+                    repetitionResults.add(resultArray)
+
+                    // Clear lists for the next repetition
+                    predictionUpDownList.clear()
+                    predictionBottomPositionList.clear()
+                    predictionHandPositionList.clear()
+                    predictionHeadPositionList.clear()
+
+                    // Update push-up count text
+                    pushUpCountTextView.text = "Jumlah Push-Up: $pushUpCount"
                 }
             }
         }
