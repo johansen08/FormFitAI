@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
     <androidx.appcompat.widget.Toolbar
@@ -34,10 +35,11 @@
     <androidx.camera.view.PreviewView
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="500dp"
         android:layout_below="@id/toolbar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="10dp" />
+
 
     <TextView
         android:id="@+id/countdown_text"
@@ -51,39 +53,39 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/feedback_buttom_position"
+        android:id="@+id/feedback_grip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Posisi Pinggul: -"
+        android:text="Posisi Grip : -"
         android:textSize="15sp"
         android:layout_below="@id/camera_preview"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/feedback_hand_position"
+        android:id="@+id/feedback_momentum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Posisi Tangan: -"
+        android:text="Mengayun : -"
         android:textSize="15sp"
-        android:layout_below="@id/feedback_buttom_position"
+        android:layout_below="@id/feedback_grip"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/feedback_head_position"
+        android:id="@+id/feedback_ROM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Posisi Kepala: -"
+        android:text="Range of Motion : -"
         android:textSize="15sp"
-        android:layout_below="@id/feedback_hand_position"
+        android:layout_below="@id/feedback_momentum"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/pull_up_count"
+        android:id="@+id/feedback_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jumlah Pull Up: -"
+        android:text="Jumlah Push Up: -"
         android:textSize="15sp"
-        android:layout_below="@id/feedback_head_position"
+        android:layout_below="@id/feedback_ROM"
         android:layout_marginTop="10dp" />
 
     <com.example.formfit.ui.camera.OverlayView
@@ -96,14 +98,14 @@
 
     <Button
         android:id="@+id/btn_read_more"
-        android:layout_width="265dp"
-        android:layout_height="61dp"
-        android:layout_below="@+id/pull_up_count"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/feedback_counter"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="@color/button"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:text="Detail"
         android:textSize="20sp" />
 

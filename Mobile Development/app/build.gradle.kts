@@ -64,6 +64,7 @@ dependencies {
     implementation ("org.tensorflow:tensorflow-lite-metadata:0.4.4")
     implementation ("org.tensorflow:tensorflow-lite:2.3.0")
     implementation ("org.tensorflow:tensorflow-lite-gpu:2.3.0")
+    implementation ("org.tensorflow:tensorflow-lite-select-tf-ops:0.0.0-nightly-SNAPSHOT")
 
     // Mediapipe
     implementation ("com.google.mediapipe:tasks-vision:0.20230731")
