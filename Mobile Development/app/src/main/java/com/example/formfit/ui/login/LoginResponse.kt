@@ -1,4 +1,5 @@
 package com.example.formfit.ui.login
 
-class LoginResponse {
-}
+data class LoginResponse(
+    val token: String
+)
