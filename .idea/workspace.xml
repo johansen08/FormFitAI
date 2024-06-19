@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0a6dc241-6a4e-43c9-b2dc-a0c57909979a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Cloud Development/Billing Documentation/Billing_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/Billing Documentation/Billing_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/Cloud Architecture/Cloud Architecture Diagram.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/ERD/ERD FormFit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/Readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/src/middleware/authMiddleware.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/src/server/routes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/src/server/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/src/server/userHandler.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cloud Development/backend-api/src/services/authServices.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/MakeDataset.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xy/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xy/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xy/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xy/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xy_hand/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xy_hand/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xy_hand/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xy_hand/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xyz/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xyz/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xyz/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xyz/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xyz_hand/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xyz_hand/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xyz_hand/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/Model/xyz_hand/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/dataset/grip_v3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/notebook/MakeDataset.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/notebook/MakeModel.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Grip Analysis/notebook/TestModel.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/dataset/grip_v3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/dataset/momentum_v1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/dataset/momentum_v2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/dataset/momentum_v4.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz_DNN/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz_DNN/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz_DNN/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz_DNN/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz_LSTM/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz_LSTM/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz_LSTM/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/model/xyz_LSTM/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/notebook/MakeDataset-Copy1.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/notebook/MakeDataset.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/notebook/MakeModel.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Momentum Analysis/notebook/TestModel.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/ROM analysis/dataset/ROM_v1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/ROM analysis/model/xyz/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/ROM analysis/model/xyz/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/ROM analysis/model/xyz/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/ROM analysis/model/xyz/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/ROM analysis/notebook/MakeDataset-Copy1.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/ROM analysis/notebook/MakeDataset.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/ROM analysis/notebook/MakeModel.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/ROM analysis/notebook/TestModel.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/convert_video_to_dataset.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/data_distance_cleaned.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/distance_wrist_elbow.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/elbow_position_model.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/extract_distance_dataset.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/extract_sudut_dataset.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/hip_angle_model.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/model_bottom_position.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/model_elbow_position.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/model_hand_position.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/model_hand_position_analysis.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/model_head_position.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/model_head_position_analysis.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/model_up_down.tflite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/model_up_down_position_analysis.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/push_up_hand_position_fix.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/push_up_head_position_fix.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/push_up_up_down.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/sudut_hip.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Push Up Analysis/sudut_hip_cleaned.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Squat Analysis/Readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="2i5klF0Kay8GDPk0nGbIkngFBu1" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "Merging main",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0a6dc241-6a4e-43c9-b2dc-a0c57909979a" name="Changes" comment="" />
+      <created>1718787975597</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718787975597</updated>
+    </task>
+    <servers />
+  </component>
+</project>
