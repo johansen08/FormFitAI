@@ -298,6 +298,9 @@ class PoseLandmarkerHelper(
                 "Kepala: sudut ${round(headAngle)}, kepala tidak lurus" // For all other cases
             }
         }
+
+        val elbowAngle = elbowAngle(result.landmarks()!!)
+
         poseLandmarkerHelperListener?.onResults(
             ResultBundle(
                 listOf(result),
@@ -317,9 +320,95 @@ class PoseLandmarkerHelper(
                 headAngle,
                 headFeedback,
                 handDistance,
-                handFeedback
+                handFeedback,
+                elbowAngle
             )
         )
+    }
+
+    private fun elbowAngle(landmarks: List<List<NormalizedLandmark>?>?): Float {
+        val indices = listOf(11, 12, 13, 14, 15, 16)
+        var elbowAngle = Float.NaN
+
+        val titik11 = mutableListOf<Float>()
+        val titik12 = mutableListOf<Float>()
+        val titik13 = mutableListOf<Float>()
+        val titik14 = mutableListOf<Float>()
+        val titik15 = mutableListOf<Float>()
+        val titik16 = mutableListOf<Float>()
+
+        landmarks?.let { landmarkList ->
+            for (landmarkList in landmarkList) {
+                landmarkList?.let {
+                    for (i in indices) {
+                        val landmark = it.getOrNull(i)
+
+                        when (i) {
+                            11 -> {
+                                landmark?.let {
+                                    titik11.add(it.x())
+                                    titik11.add(it.y())
+                                }
+                            }
+                            12 -> {
+                                landmark?.let {
+                                    titik12.add(it.x())
+                                    titik12.add(it.y())
+                                }
+                            }
+                            13 -> {
+                                landmark?.let {
+                                    titik13.add(it.x())
+                                    titik13.add(it.y())
+                                }
+                            }
+                            14 -> {
+                                landmark?.let {
+                                    titik14.add(it.x())
+                                    titik14.add(it.y())
+                                }
+                            }
+                            15 -> {
+                                landmark?.let {
+                                    titik15.add(it.x())
+                                    titik15.add(it.y())
+                                }
+                            }
+                            16 -> {
+                                landmark?.let {
+                                    titik16.add(it.x())
+                                    titik16.add(it.y())
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Hitung sudut kiri dan sudut kanan menggunakan fungsi hitungSudut yang ada
+        val sudutKiri = if (titik11.isNotEmpty() && titik13.isNotEmpty() && titik15.isNotEmpty()) {
+            hitungSudut(titik11, titik13, titik15)
+        } else {
+            // Nilai default jika data tidak lengkap
+            Float.NaN
+        }
+
+        val sudutKanan = if (titik12.isNotEmpty() && titik14.isNotEmpty() && titik16.isNotEmpty()) {
+            hitungSudut(titik12, titik14, titik16)
+        } else {
+            // Nilai default jika data tidak lengkap
+            Float.NaN
+        }
+
+        // Menyimpan sudut kiri dan kanan di array input, jika data lengkap
+
+        if (!sudutKiri.isNaN() && !sudutKanan.isNaN()) {
+            elbowAngle = (sudutKanan + sudutKiri) / 2
+        }
+
+
+        return elbowAngle
     }
 
     private fun getLabelFromModel(result: PoseLandmarkerResult, modelFileName: String): Float {
@@ -993,7 +1082,8 @@ class PoseLandmarkerHelper(
         val headAngle: Float,
         val headFeedback: String,
         val handDistance: Float,
-        val handFeedback: String
+        val handFeedback: String,
+        val elbowAngle: Float
 
 
     )

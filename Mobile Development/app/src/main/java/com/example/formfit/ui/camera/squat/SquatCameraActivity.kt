@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.formfit.R
 import com.example.formfit.ui.camera.MainViewModel
 import com.example.formfit.ui.camera.OverlayView
-import com.example.formfit.ui.camera.pushup.PushupCameraActivity
 import com.example.formfit.ui.feedback.FeedbackSquatActivity
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import java.util.concurrent.ExecutorService
