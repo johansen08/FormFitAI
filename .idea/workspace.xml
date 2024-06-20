@@ -4,7 +4,39 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="0a6dc241-6a4e-43c9-b2dc-a0c57909979a" name="Changes" comment="">
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xy/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xy/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xy/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xy/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xy_hand/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xy_hand/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xy_hand/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xy_hand/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xyz/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xyz/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xyz/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xyz/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xyz_hand/fingerprint.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xyz_hand/saved_model.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xyz_hand/variables/variables.data-00000-of-00001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/Model/xyz_hand/variables/variables.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/dataset/grip_v3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/notebook/.ipynb_checkpoints/MakeDataset-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/notebook/.ipynb_checkpoints/MakeModel-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/notebook/.ipynb_checkpoints/TestModel-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/notebook/MakeDataset.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/notebook/MakeModel.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Machine Learning/Pull Up Analysis/notebook/TestModel.ipynb" beforeDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> cad29bea9ccbd1fe7e60095062b26866f37fd99a
+    </list>
+=======
     <list default="true" id="0a6dc241-6a4e-43c9-b2dc-a0c57909979a" name="Changes" comment="" />
+>>>>>>> c3ed130fc95f759b37def2485d0356155b7c7ad4
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,7 +82,15 @@
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "last_opened_file_path": "E:/Machine Learning/FormFitAI/Mobile Development"
+=======
+    "last_opened_file_path": "D:/Capstone/Mobile Development"
+>>>>>>> cad29bea9ccbd1fe7e60095062b26866f37fd99a
+=======
     "last_opened_file_path": "C:/Users/USER/AndroidStudioProjects/FormFitAI/Mobile Development"
+>>>>>>> c3ed130fc95f759b37def2485d0356155b7c7ad4
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
