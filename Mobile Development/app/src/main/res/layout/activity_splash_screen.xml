@@ -4,20 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.splashScreen.SplashScreenActivity">
+    tools:context=".ui.splashScreen.SplashScreenActivity"
+    android:background="@drawable/bg2">
 
     <ImageView
         android:id="@+id/spash_screen_logo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@mipmap/splash_screen_logo"
-        android:layout_centerInParent="true"/>
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/logo_bgremove"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"/>
 
     <TextView
         android:id="@+id/splash_screen_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Be Healthy"
+        android:text="BE HEALTHY"
+        android:textStyle="bold"
         android:layout_below="@+id/spash_screen_logo"
         android:textSize="40dp"
         android:layout_centerInParent="true"

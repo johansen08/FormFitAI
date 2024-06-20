@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.example.formfit.MainActivity
 import com.example.formfit.R
 import com.example.formfit.ui.login.LoginActivity
+import com.example.formfit.ui.onBoarding.FirstOnBoardingActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -34,7 +35,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val myHandler =  Handler()
         myHandler.postDelayed({
-            startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
+            startActivity(Intent(this@SplashScreenActivity, FirstOnBoardingActivity::class.java))
             finish()
         }, 3000)
 
