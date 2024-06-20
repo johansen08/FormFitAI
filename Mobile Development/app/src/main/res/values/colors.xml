@@ -5,5 +5,7 @@
     <color name="FormFitAI">#0380A7</color>
     <color name="button">#F16310</color>
     <color name="mp_color_primary">#FF4081</color>
-
+    <color name="blue">#0000FF</color>
+    <color name="green">#6FC276</color>
+    <color name="red">#FF2C2C</color>
 </resources>
