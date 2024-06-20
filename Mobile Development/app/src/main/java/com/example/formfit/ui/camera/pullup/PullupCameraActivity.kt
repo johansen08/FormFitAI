@@ -77,7 +77,7 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
     var detailFeedback : MutableList<IntArray> = mutableListOf<IntArray>()
 
     var counterGrip : MutableList<Int> = mutableListOf(0,0,0)
-    var counterROM : MutableList<Int> = mutableListOf(0,0)
+    var counterROM : Int = 0
     var counterMomentum : MutableList<Int> = mutableListOf(0,0)
 
 
@@ -106,6 +106,7 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
 
         readMoreButton.setOnClickListener {
             val intent = Intent(this, FeedbackPullupActivity::class.java)
+            intent.putExtra("repetitionResults", detailFeedback.toTypedArray())
             startActivity(intent)
         }
 
@@ -258,11 +259,21 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
                         counterGrip[2]++
                     }
 
-                    // ROM COUNTER
-                    if (resultBundle.predictionROM == "Range of Motion : FULL ROM") {
-                        counterROM[0]++
-                    } else if (resultBundle.predictionROM == "Range of Motion : Kurang Naik / Kurang Turun!") {
-                        counterROM[1]++
+
+                    if (isUP) {
+                        if (resultBundle.predictionROM == "Range of Motion : FULL ROM" && currentState == "down") {
+                            counterROM = 1
+                            isUP = false
+                        } else if (resultBundle.predictionROM == "Range of Motion : Kurang Naik / Kurang Turun!" && currentState == "down") {
+                            counterROM = 0
+                        }
+                    } else {
+                        // ROM COUNTER at UP POSITION
+                        if (resultBundle.predictionROM == "Range of Motion : FULL ROM" && currentState == "up") {
+                            isUP = true
+                        } else if (resultBundle.predictionROM == "Range of Motion : Kurang Naik / Kurang Turun!" && currentState == "up") {
+                            counterROM = 0
+                        }
                     }
 
                     // Momentum Counter
@@ -278,7 +289,7 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
                     if(stateSequence.size == 4) {
 
                         val idxCounterGrip = counterGrip.indexOf(counterGrip.maxOrNull())
-                        val idxCounterROM = counterROM.indexOf(counterROM.maxOrNull())
+                        val idxCounterROM = counterROM
                         val idxCounterMomentum = counterMomentum.indexOf(counterMomentum.maxOrNull())
                         detailFeedback.add(intArrayOf(idxCounterGrip, idxCounterROM, idxCounterMomentum))
 
