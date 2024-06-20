@@ -25,12 +25,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.formfit.R
 import com.example.formfit.ui.camera.MainViewModel
 import com.example.formfit.ui.camera.OverlayView
-<<<<<<< HEAD
 import com.example.formfit.ui.feedback.FeedbackActivity
-=======
 import com.example.formfit.ui.camera.pullup.PoseLandmarkerHelper
 import com.example.formfit.ui.feedback.FeedbackPullupActivity
->>>>>>> c3ed130fc95f759b37def2485d0356155b7c7ad4
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
