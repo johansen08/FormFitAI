@@ -183,17 +183,18 @@ class PoseLandmarkerHelper(
         result: PoseLandmarkerResult,
         input: MPImage
     ) {
+
         val finishTimeMs = SystemClock.uptimeMillis()
         val inferenceTime = finishTimeMs - result.timestampMs()
 
         val threshold: Float = 0.5f // Misalkan nilai threshold untuk menentukan posisi benar
 
         // ROM Analysis
-        val labelROM = getLabelFromModel(result)
+        val labelROM = getLabelFromModel(result!!)
         val predictionROM = if (labelROM > 0.5) "Range of Motion : FULL ROM" else "Range of Motion : Kurang Naik / Kurang Turun!"
 
         // GRIP Analysis
-        val predictionGripLabel = getGripType(result, thresholds = 1.5, koef = 0.5);
+        val predictionGripLabel = getGripType(result!!, thresholds = 1.5, koef = 0.5);
         val predictionGrip = when (predictionGripLabel) {
             0 -> {
                 "Posisi Grip: Benar" // Jika posisi benar
@@ -210,7 +211,7 @@ class PoseLandmarkerHelper(
         }
 
         // Momentum Used Analysis
-        val momentumLabel = getMomentumLabel(result)
+        val momentumLabel = getMomentumLabel(result!!)
         val predictionMomentum = when {
             momentumLabel == null -> {
                 "Mengayun : -" // Jika labelHeadPosition null
@@ -218,7 +219,7 @@ class PoseLandmarkerHelper(
             momentumLabel.isNaN() -> {
                 "Posisikan kamera dengan tepat!" // Jika labelHeadPosition NaN
             }
-            momentumLabel < threshold -> {
+            momentumLabel > threshold -> {
                 "Mengayun : Bagus, tubuh lurus dan stabil!" // Jika posisi benar
             }
             else -> {
@@ -226,7 +227,7 @@ class PoseLandmarkerHelper(
             }
         }
 
-        val predictionState = getStateLabel(result)
+        val predictionState = getStateLabel(result!!)
 
         val feedbackText = "$predictionROM\n" +
                 "$predictionGrip\n" +
@@ -297,7 +298,7 @@ class PoseLandmarkerHelper(
 
         // Extract Mediapipe Output
         val landmarks = result.worldLandmarks()
-        val coords = prepareInputData(landmarks)
+        val coords = prepareInputData(landmarks!!)
 
         // Append to List Input
         input_momentum.add(coords)

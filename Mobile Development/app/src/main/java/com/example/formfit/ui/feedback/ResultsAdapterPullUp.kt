@@ -55,7 +55,26 @@ class ResultsAdapterPullUp(private val resultsList: List<PullUpResult>) : Recycl
         holder.momentumScoreTextView.setBackgroundResource(momentumBackground)
 
         val feedback = StringBuilder()
-        feedback.append("Ini Feedback")
+        if(result.gripAnalysis == 1) {
+            feedback.append("Grip terlalu lebar, berbahaya untuk otot bahu. ")
+        } else if (result.gripAnalysis == 2) {
+            feedback.append("Grip terlalu sempit, fokus latihan lebih kek otot biceps.")
+        } else {
+            feedback.append("Grip sudah benar. ")
+        }
+
+        if (result.romAnalysis == 1) {
+            feedback.append("Gerakan anda tidak penuh, pastikan anda turun dan naik sepenuhnya. ")
+        } else {
+            feedback.append("Anda melakukan gerakan secara full range of motion. ")
+        }
+
+        if (result.momentumAnalysis == 1) {
+            feedback.append("Terlalu banyak menggunakan momentum, sehingga tubuh mengayun. Coba untuk kontrol gerakan anda.")
+        } else {
+            feedback.append("Bagus, tubuh lurus dan stabil!. ")
+        }
+
         holder.feedbackTextView.text = feedback.toString()
     }
 
