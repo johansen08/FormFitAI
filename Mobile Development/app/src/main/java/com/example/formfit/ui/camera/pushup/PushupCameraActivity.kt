@@ -50,10 +50,16 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
     private lateinit var feedback_buttom_position: TextView
     private lateinit var feedback_hand_position: TextView
     private lateinit var feedback_head_position: TextView
-    private lateinit var pushUpCountTextView: TextView
+    private lateinit var pushUpCountCorrectTextView: TextView
+    private lateinit var pushUpCountWrongTextView: TextView
 
     private var isPushUpDown = false
-    private var pushUpCount = 0
+    private var pushUpCountCorrect = 0
+    private var pushUpCountWrong = 0
+    private var stage1 = false
+    private var stage2 = false
+    private var stage3 = false
+    private var stage4 = false
 
     private val countdownHandler = Handler(Looper.getMainLooper())
     private var countdownSeconds = 10
@@ -61,10 +67,9 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
 
     private var isAnalyzing = false
 
-    private val predictionUpDownList = mutableListOf<Float>()
-    private val predictionBottomPositionList = mutableListOf<Float>()
-    private val predictionHandPositionList = mutableListOf<Float>()
-    private val predictionHeadPositionList = mutableListOf<Float>()
+    private val hipPositionList = mutableListOf<Float>()
+    private val handPositionList = mutableListOf<Float>()
+    private val headPositionList = mutableListOf<Float>()
 
     private val repetitionResults = mutableListOf<FloatArray>()
 
@@ -78,7 +83,8 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
         feedback_hand_position = findViewById(R.id.feedback_hand_position)
         feedback_head_position = findViewById(R.id.feedback_head_position)
         overlay = findViewById(R.id.overlay_view)
-        pushUpCountTextView = findViewById(R.id.push_up_count)
+        pushUpCountCorrectTextView = findViewById(R.id.push_up_count_correct)
+        pushUpCountWrongTextView = findViewById(R.id.push_up_count_wrong)
         countdownTextView = findViewById(R.id.countdown_text)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
@@ -222,76 +228,101 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
                 )
                 overlay.invalidate()
 
-                // Collect predictions for the current frame
-                predictionUpDownList.add(resultBundle.labelUpDown)
-                predictionBottomPositionList.add(resultBundle.hipAngle)
-                predictionHandPositionList.add(resultBundle.handDistance)
-                predictionHeadPositionList.add(resultBundle.headAngle)
+                val hipAngle = resultBundle.hipAngle
+                val handDistance = resultBundle.handDistance
+                val headAngle = resultBundle.headAngle
+                val elbowAngle = resultBundle.elbowAngle
+                val labelUpDown = resultBundle.labelUpDown
+                if (labelUpDown >= 0.8 && elbowAngle >= 90) {
+                    if (hipAngle >= 160 && handDistance <= 1.3 && headAngle >= 140 && isPushUpDown) {
+                        stage2 = true
+                        hipPositionList.add(hipAngle)
+                        handPositionList.add(handDistance)
+                        headPositionList.add(headAngle)
+                        feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
+                        feedback_hand_position.text = "Tangan: Benar %.2f".format(handDistance)
+                        feedback_head_position.text = "Kepala: Benar %.2f".format(headAngle)
+                        isPushUpDown = false
+                    } else if (isPushUpDown){
+                        stage1 = true
+                        hipPositionList.add(hipAngle)
+                        handPositionList.add(handDistance)
+                        headPositionList.add(headAngle)
+                        feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
+                        feedback_hand_position.text = "Tangan: Salah %.2f".format(handDistance)
+                        feedback_head_position.text = "Kepala: Salah %.2f".format(headAngle)
+                        isPushUpDown = false
+                    }
 
-                if (resultBundle.labelUpDown <= 0.9 && !resultBundle.labelBottomPosition.isNaN() && !resultBundle.labelHandPosition.isNaN() && !resultBundle.labelHeadPosition.isNaN()) {
+                } else if (labelUpDown <= 0.2 && elbowAngle < 90) {
+                    if (hipAngle >= 160 && handDistance <= 1.3 && headAngle >= 140 && !isPushUpDown) {
+                        stage3 = true
+                        hipPositionList.add(hipAngle)
+                        handPositionList.add(handDistance)
+                        headPositionList.add(headAngle)
+                        feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
+                        feedback_hand_position.text = "Tangan: Benar %.2f".format(handDistance)
+                        feedback_head_position.text = "Kepala: Benar %.2f".format(headAngle)
+                        isPushUpDown = true
+                    } else if (!isPushUpDown){
+                        stage4 = true
+                        hipPositionList.add(hipAngle)
+                        handPositionList.add(handDistance)
+                        headPositionList.add(headAngle)
+                        feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
+                        feedback_hand_position.text = "Tangan: Salah %.2f".format(handDistance)
+                        feedback_head_position.text = "Kepala: Salah %.2f".format(headAngle)
+                        isPushUpDown = true
+                    }
+                    if (stage2 && stage3) {
+                        pushUpCountCorrect++
+                        val hipPos = hipPositionList.average().toFloat()
+                        val handPos = handPositionList.average().toFloat()
+                        val headPos = headPositionList.average().toFloat()
+
+                        if (!hipPos.isNaN() && !handPos.isNaN() && !headPos.isNaN()) {
+                            val resultArray = floatArrayOf(hipPos, handPos, headPos, pushUpCountCorrect.toFloat(), pushUpCountWrong.toFloat())
+                            repetitionResults.add(resultArray)
+                            Log.d("TEST", "Result Array: ${resultArray.contentToString()}")
+                        }
+
+                        if (!isPushUpDown) {
+                            hipPositionList.clear()
+                            handPositionList.clear()
+                            headPositionList.clear()
+                        }
+                    } else if (stage1 && stage4){
+                        pushUpCountWrong++
+                        val hipPos = hipPositionList.average().toFloat()
+                        val handPos = handPositionList.average().toFloat()
+                        val headPos = headPositionList.average().toFloat()
+
+                        if (!hipPos.isNaN() && !handPos.isNaN() && !headPos.isNaN()) {
+                            val resultArray = floatArrayOf(hipPos, handPos, headPos, pushUpCountCorrect.toFloat(), pushUpCountWrong.toFloat())
+                            repetitionResults.add(resultArray)
+                            Log.d("TEST", "Result Array: ${resultArray.contentToString()}")
+                        }
+
+                        if (!isPushUpDown) {
+                            hipPositionList.clear()
+                            handPositionList.clear()
+                            headPositionList.clear()
+                        }
+                    }
+
+                    // Reset stages after counting a squat
+                    stage1 = false
+                    stage2 = false
+                    stage3 = false
+                    stage4 = false
+
                     isPushUpDown = true
-                    val avgBottomPosition = predictionBottomPositionList.average().toFloat()
-                    val avgHandPosition = predictionHandPositionList.average().toFloat()
-                    val avgHeadPosition = predictionHeadPositionList.average().toFloat()
 
-                    if (avgBottomPosition >= 165) {
-                        feedback_buttom_position.text = "Pinggang: Benar"
-                    } else {
-                        feedback_buttom_position.text = "Pinggang: Salah"
-                    }
-                    if (avgHandPosition <= 1.3) {
-                        feedback_hand_position.text = "Tangan: Benar"
-                    } else {
-                        feedback_hand_position.text = "Tangan: Salah"
-                    }
-                    if (avgHeadPosition >= 140) {
-                        feedback_head_position.text = "Kepala: Benar"
-                    } else {
-                        feedback_head_position.text = "Kepala: Salah"
-                    }
-                } else if (resultBundle.labelUpDown > 0.9 && isPushUpDown && !resultBundle.labelBottomPosition.isNaN() && !resultBundle.labelHandPosition.isNaN() && !resultBundle.labelHeadPosition.isNaN()) {
-                    pushUpCount++
-                    isPushUpDown = false
-
-                    // Calculate averages
-                    val avgBottomPosition = predictionBottomPositionList.average().toFloat()
-                    val avgHandPosition = predictionHandPositionList.average().toFloat()
-                    val avgHeadPosition = predictionHeadPositionList.average().toFloat()
-
-                    if (avgBottomPosition >= 165) {
-                        feedback_buttom_position.text = "Pinggang: Benar"
-                    } else {
-                        feedback_buttom_position.text = "Pinggang: Salah"
-                    }
-                    if (avgHandPosition <= 1.3) {
-                        feedback_hand_position.text = "Tangan: Benar"
-                    } else {
-                        feedback_hand_position.text = "Tangan: Salah"
-                    }
-                    if (avgHeadPosition >= 140) {
-                        feedback_head_position.text = "Kepala: Benar"
-                    } else {
-                        feedback_head_position.text = "Kepala: Salah"
-                    }
-
-                    // Create result array
-                    val resultArray = floatArrayOf(avgBottomPosition, avgHandPosition, avgHeadPosition)
-
-                    // Log result array
-                    Log.d(TAG, "Result Array: ${resultArray.contentToString()}")
-
-                    // Add result array to repetition results list
-                    repetitionResults.add(resultArray)
-
-                    // Clear lists for the next repetition
-                    predictionUpDownList.clear()
-                    predictionBottomPositionList.clear()
-                    predictionHandPositionList.clear()
-                    predictionHeadPositionList.clear()
-
-                    // Update push-up count text
-                    pushUpCountTextView.text = "Jumlah Push-Up: $pushUpCount"
                 }
+
+                // Update the squat counts
+                pushUpCountCorrectTextView.text = "Push-up Benar: $pushUpCountCorrect"
+                pushUpCountWrongTextView.text = "Push-up Salah: $pushUpCountWrong"
             }
         }
     }
