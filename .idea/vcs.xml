@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
+<<<<<<< HEAD
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Machine Learning/Pull Up Analysis" vcs="Git" />
+=======
+    <mapping directory="" vcs="Git" />
+>>>>>>> cad29bea9ccbd1fe7e60095062b26866f37fd99a
   </component>
 </project>

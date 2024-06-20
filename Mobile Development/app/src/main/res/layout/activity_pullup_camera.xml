@@ -83,7 +83,7 @@
         android:id="@+id/feedback_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jumlah Push Up: -"
+        android:text="Jumlah Repetisi : -"
         android:textSize="15sp"
         android:layout_below="@id/feedback_ROM"
         android:layout_marginTop="10dp" />

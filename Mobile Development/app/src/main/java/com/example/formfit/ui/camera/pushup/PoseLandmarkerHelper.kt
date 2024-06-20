@@ -21,6 +21,7 @@ import java.io.FileInputStream
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import kotlin.math.pow
+import kotlin.math.round
 import kotlin.math.sqrt
 
 class PoseLandmarkerHelper(
@@ -71,7 +72,7 @@ class PoseLandmarkerHelper(
             }
         }
         // mediapipe pose estimation detection model
-        val modelName = "pose_landmarker_full.task"
+        val modelName = "pose_landmarker_lite.task"
 
         baseOptionBuilder.setModelAssetPath(modelName)
         when (runningMode) {
@@ -187,8 +188,8 @@ class PoseLandmarkerHelper(
         val labelUpDown = getLabelFromModel(result, "model_up_down.tflite")
         val predictionUpDown = if (labelUpDown > 0.5) "Up" else "Down"
         // Bottom Position Analysis
-        val labelBottomPosition: Float? = getLabelFromModel(result, "model_bottom_position.tflite")
-        val threshold: Float = 0.5f // Misalkan nilai threshold untuk menentukan posisi benar
+        val labelBottomPosition = getLabelFromModel(result, "model_bottom_position.tflite")
+        val threshold = 0.5f // Misalkan nilai threshold untuk menentukan posisi benar
 
         val predictionBottomPosition = when {
             labelBottomPosition == null -> {
@@ -248,6 +249,55 @@ class PoseLandmarkerHelper(
         Log.d(TAG, "$predictionBottomPosition\n")
         Log.d(TAG, "$predictionHandPosition\n")
         Log.d(TAG, "$predictionHeadPosition\n")
+        // Analysis without ML model
+        // Bottom Position Analysis
+        val hipAngle = dataHipAngle(result.landmarks()!!)
+        val hipFeedback = when {
+            hipAngle == null -> {
+                "Posisikan kamera dengan tepat" // Jika labelBottomPosition null
+            }
+            hipAngle.isNaN() -> {
+                "Posisikan kamera dengan tepat" // Jika labelBottomPosition NaN
+            }
+            hipAngle >= 170 -> {
+                "Pinggul: Benar" // Jika posisi benar
+            }
+            else -> {
+                "Pinggul: sudut ${round(hipAngle)}, pinggul tidak lurus" // Jika posisi salah
+            }
+        }
+
+        val handDistance = handDistance(result.landmarks()!!)
+        val handFeedback = when {
+            handDistance == null -> {
+                "Posisikan kamera dengan tepat" // Jika labelBottomPosition null
+            }
+            handDistance.isNaN() -> {
+                "Posisikan kamera dengan tepat" // Jika labelBottomPosition NaN
+            }
+            handDistance < 1.3 -> {
+                "Tangan: Benar, jarak %.2f".format(handDistance) // Jika posisi benar
+            }
+            else -> {
+                "Tangan: ratio jarak tangan dan siku $%.2f, siku tidak sejajar tubuh".format(handDistance) // Jika posisi salah
+            }
+        }
+
+        val headAngle = headAngle(result.landmarks()!!)
+        val headFeedback = when {
+            headAngle == null -> {
+                "Posisikan kamera dengan tepat" // If headAngle is null
+            }
+            headAngle.isNaN() -> {
+                "Posisikan kamera dengan tepat" // If headAngle is NaN
+            }
+            headAngle >= 140 -> {
+                "Kepala: Benar" // If headAngle is greater than 170
+            }
+            else -> {
+                "Kepala: sudut ${round(headAngle)}, kepala tidak lurus" // For all other cases
+            }
+        }
         poseLandmarkerHelperListener?.onResults(
             ResultBundle(
                 listOf(result),
@@ -257,7 +307,17 @@ class PoseLandmarkerHelper(
                 predictionUpDown,
                 predictionBottomPosition,
                 predictionHandPosition,
-                predictionHeadPosition
+                predictionHeadPosition,
+                labelUpDown,
+                labelBottomPosition,
+                labelHandPosition,
+                labelHeadPosition,
+                hipAngle,
+                hipFeedback,
+                headAngle,
+                headFeedback,
+                handDistance,
+                handFeedback
             )
         )
     }
@@ -320,6 +380,267 @@ class PoseLandmarkerHelper(
 
         return inputArray
     }
+
+    private fun handDistance(landmarks: List<List<NormalizedLandmark>?>?): Float {
+        // Memilih landmark dari indeks 13 hingga 16 (inklusif)
+        val startIndex = 13
+        val endIndex = 16
+
+        // Array untuk menyimpan jarak dan rasio elbow to wrist
+        var handDistance = Float.NaN  // Inisialisasi dengan NaN (Not a Number)
+
+        // Definisikan titik-titik yang akan digunakan untuk menghitung jarak
+        val titik13 = mutableListOf<Float>()
+        val titik14 = mutableListOf<Float>()
+        val titik15 = mutableListOf<Float>()
+        val titik16 = mutableListOf<Float>()
+
+        // Ekstraksi landmark dari hasil deteksi, jika landmarks tidak null
+        landmarks?.let { landmarkList ->
+            for (landmarkList in landmarkList) {
+                landmarkList?.let {
+                    for (i in startIndex..endIndex) {
+                        val landmark = it.getOrNull(i)
+
+                        // Simpan koordinat titik-titik yang diperlukan untuk menghitung jarak
+                        when (i) {
+                            13 -> {
+                                landmark?.let {
+                                    titik13.add(it.y())
+                                    titik13.add(it.z())
+                                }
+                            }
+                            14 -> {
+                                landmark?.let {
+                                    titik14.add(it.y())
+                                    titik14.add(it.z())
+                                }
+                            }
+                            15 -> {
+                                landmark?.let {
+                                    titik15.add(it.y())
+                                    titik15.add(it.z())
+                                }
+                            }
+                            16 -> {
+                                landmark?.let {
+                                    titik16.add(it.y())
+                                    titik16.add(it.z())
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Hitung jarak antara titik-titik yang relevan
+        val jarakWrist = if (titik15.isNotEmpty() && titik16.isNotEmpty()) {
+            hitungJarak(titik15, titik16)
+        } else {
+            Float.NaN
+        }
+
+        val jarakElbow = if (titik13.isNotEmpty() && titik14.isNotEmpty()) {
+            hitungJarak(titik13, titik14)
+        } else {
+            Float.NaN
+        }
+
+        // Hitung rasio elbow to wrist
+        val elbowToWristRatio = jarakElbow / jarakWrist
+
+        // Menyimpan hasil jarak dan rasio di dalam array input
+        if (!jarakWrist.isNaN() && !jarakElbow.isNaN() && !elbowToWristRatio.isNaN()) {
+            handDistance = elbowToWristRatio.toFloat()
+        }
+
+        return handDistance
+    }
+
+    private fun dataHipAngle(landmarks: List<List<NormalizedLandmark>?>?): Float {
+        // Memilih landmark dari indeks 11 hingga 33 (inklusif)
+        val startIndex = 11
+        val endIndex = 33
+
+        // Definisikan titik-titik yang akan digunakan untuk menghitung sudut
+        val titik11 = mutableListOf<Float>()
+        val titik12 = mutableListOf<Float>()
+        val titik23 = mutableListOf<Float>()
+        val titik24 = mutableListOf<Float>()
+        val titik25 = mutableListOf<Float>()
+        val titik26 = mutableListOf<Float>()
+
+        var hipAngle = Float.NaN
+
+        // Ekstraksi landmark dari hasil deteksi, jika landmarks tidak null
+        landmarks?.let { landmarkList ->
+            for (landmarkList in landmarkList) {
+                landmarkList?.let {
+                    for (i in startIndex..endIndex) {
+                        val landmark = it.getOrNull(i)
+
+                        // Simpan koordinat titik-titik yang diperlukan untuk menghitung sudut
+                        when (i) {
+                            11 -> {
+                                landmark?.let {
+                                    titik11.add(it.x())
+                                    titik11.add(it.y())
+                                }
+                            }
+                            12 -> {
+                                landmark?.let {
+                                    titik12.add(it.x())
+                                    titik12.add(it.y())
+                                }
+                            }
+                            23 -> {
+                                landmark?.let {
+                                    titik23.add(it.x())
+                                    titik23.add(it.y())
+                                }
+                            }
+                            24 -> {
+                                landmark?.let {
+                                    titik24.add(it.x())
+                                    titik24.add(it.y())
+                                }
+                            }
+                            25 -> {
+                                landmark?.let {
+                                    titik25.add(it.x())
+                                    titik25.add(it.y())
+                                }
+                            }
+                            26 -> {
+                                landmark?.let {
+                                    titik26.add(it.x())
+                                    titik26.add(it.y())
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Hitung sudut kiri dan sudut kanan menggunakan fungsi hitungSudut yang ada
+        val sudutKiri = if (titik11.isNotEmpty() && titik23.isNotEmpty() && titik25.isNotEmpty()) {
+            hitungSudut(titik11, titik23, titik25)
+        } else {
+            // Nilai default jika data tidak lengkap
+            Float.NaN
+        }
+
+        val sudutKanan = if (titik12.isNotEmpty() && titik24.isNotEmpty() && titik26.isNotEmpty()) {
+            hitungSudut(titik12, titik24, titik26)
+        } else {
+            // Nilai default jika data tidak lengkap
+            Float.NaN
+        }
+
+        // Menyimpan sudut kiri dan kanan di array input, jika data lengkap
+
+        if (!sudutKiri.isNaN() && !sudutKanan.isNaN()) {
+            hipAngle = (sudutKanan + sudutKiri) / 2
+        }
+
+        return hipAngle
+    }
+
+    private fun headAngle(landmarks: List<List<NormalizedLandmark>?>?): Float {
+        val indices = listOf(7, 8, 11, 12, 23, 24)
+        var headAngle = Float.NaN
+
+        val titik7 = mutableListOf<Float>()
+        val titik8 = mutableListOf<Float>()
+        val titik11 = mutableListOf<Float>()
+        val titik12 = mutableListOf<Float>()
+        val titik23 = mutableListOf<Float>()
+        val titik24 = mutableListOf<Float>()
+
+        landmarks?.let { landmarkList ->
+            for (landmarkList in landmarkList) {
+                landmarkList?.let {
+                    for (i in indices) {
+                        val landmark = it.getOrNull(i)
+
+                        when (i) {
+                            7 -> {
+                                landmark?.let {
+                                    titik7.add(it.x())
+                                    titik7.add(it.y())
+                                }
+                            }
+                            8 -> {
+                                landmark?.let {
+                                    titik8.add(it.x())
+                                    titik8.add(it.y())
+                                }
+                            }
+                            11 -> {
+                                landmark?.let {
+                                    titik11.add(it.x())
+                                    titik11.add(it.y())
+                                }
+                            }
+                            12 -> {
+                                landmark?.let {
+                                    titik12.add(it.x())
+                                    titik12.add(it.y())
+                                }
+                            }
+                            23 -> {
+                                landmark?.let {
+                                    titik23.add(it.x())
+                                    titik23.add(it.y())
+                                }
+                            }
+                            24 -> {
+                                landmark?.let {
+                                    titik24.add(it.x())
+                                    titik24.add(it.y())
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        val tengahTelinga = if (titik7.isNotEmpty() && titik8.isNotEmpty()) {
+            hitungTitikTengah(titik7, titik8)
+        } else {
+            listOf(Float.NaN, Float.NaN)
+        }
+
+        val tengahBahu = if (titik11.isNotEmpty() && titik12.isNotEmpty()) {
+            hitungTitikTengah(titik11, titik12)
+        } else {
+            listOf(Float.NaN, Float.NaN)
+        }
+
+        val tengahPinggul = if (titik23.isNotEmpty() && titik24.isNotEmpty()) {
+            hitungTitikTengah(titik23, titik24)
+        } else {
+            listOf(Float.NaN, Float.NaN)
+        }
+
+        val sudut = if (!tengahTelinga.contains(Float.NaN) && !tengahBahu.contains(Float.NaN) &&
+            !tengahPinggul.contains(Float.NaN)) {
+            hitungSudut(tengahTelinga, tengahBahu, tengahPinggul)
+        } else {
+            Float.NaN
+        }
+
+        // Menyimpan sudut di dalam array input, jika data lengkap
+        if (!sudut.isNaN()) {
+            headAngle = sudut
+        }
+
+        return headAngle
+    }
+
 
     private fun prepareInputData2(landmarks: List<List<NormalizedLandmark>?>?): FloatArray {
         // Memilih landmark dari indeks 11 hingga 33 (inklusif)
@@ -662,7 +983,17 @@ class PoseLandmarkerHelper(
         val predictionUpDown: String,
         val predictionBottomPosition: String,
         val predictionHandPosition: String,
-        val predictionHeadPosition: String
+        val predictionHeadPosition: String,
+        val labelUpDown: Float,
+        val labelBottomPosition: Float,
+        val labelHandPosition: Float,
+        val labelHeadPosition: Float,
+        val hipAngle: Float,
+        val hipFeedback: String,
+        val headAngle: Float,
+        val headFeedback: String,
+        val handDistance: Float,
+        val handFeedback: String
 
 
     )
