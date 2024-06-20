@@ -34,10 +34,10 @@
     <androidx.camera.view.PreviewView
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="500dp"
         android:layout_below="@id/toolbar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/countdown_text"
@@ -51,39 +51,39 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/feedback_buttom_position"
+        android:id="@+id/feedback_knee_position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Posisi Pinggul: -"
+        android:text="Posisi Lutut: -"
         android:textSize="15sp"
         android:layout_below="@id/camera_preview"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/feedback_hand_position"
+        android:id="@+id/feedback_hip_position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Posisi Tangan: -"
         android:textSize="15sp"
-        android:layout_below="@id/feedback_buttom_position"
+        android:layout_below="@id/feedback_knee_position"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/feedback_head_position"
+        android:id="@+id/squat_count_correct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Posisi Kepala: -"
+        android:text="Jumlah Squat Benar: -"
         android:textSize="15sp"
-        android:layout_below="@id/feedback_hand_position"
+        android:layout_below="@id/feedback_hip_position"
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/squat_count"
+        android:id="@+id/squat_count_wrong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jumlah Squat: -"
+        android:text="Jumlah Squat Salah: -"
         android:textSize="15sp"
-        android:layout_below="@id/feedback_head_position"
+        android:layout_below="@id/squat_count_correct"
         android:layout_marginTop="10dp" />
 
     <com.example.formfit.ui.camera.OverlayView
@@ -98,9 +98,9 @@
         android:id="@+id/btn_read_more"
         android:layout_width="265dp"
         android:layout_height="61dp"
-        android:layout_below="@+id/squat_count"
+        android:layout_below="@+id/squat_count_wrong"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="@color/button"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"

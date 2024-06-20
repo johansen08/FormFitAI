@@ -5,7 +5,7 @@ import com.example.formfit.ui.camera.pushup.PoseLandmarkerHelper
 
 class MainViewModel : ViewModel() {
 
-    private var _delegate: Int = PoseLandmarkerHelper.DELEGATE_CPU
+    private var _delegate: Int = PoseLandmarkerHelper.DELEGATE_GPU
     private var _minPoseDetectionConfidence: Float =
         PoseLandmarkerHelper.DEFAULT_POSE_DETECTION_CONFIDENCE
     private var _minPoseTrackingConfidence: Float = PoseLandmarkerHelper
