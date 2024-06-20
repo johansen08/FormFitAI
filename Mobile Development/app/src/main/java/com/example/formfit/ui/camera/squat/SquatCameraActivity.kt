@@ -14,7 +14,7 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.formfit.R
-import com.example.formfit.ui.feedback.FeedbackActivity
+import com.example.formfit.ui.feedback.FeedbackSquatActivity
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -42,7 +42,7 @@ class SquatCameraActivity : AppCompatActivity() {
         }
 
         readMoreButton.setOnClickListener {
-            val intent = Intent(this, FeedbackActivity::class.java)
+            val intent = Intent(this, FeedbackSquatActivity::class.java)
             startActivity(intent)
         }
     }

@@ -25,7 +25,7 @@ import com.example.formfit.R
 import com.example.formfit.ui.camera.MainViewModel
 import com.example.formfit.ui.camera.OverlayView
 import com.example.formfit.ui.camera.pullup.PoseLandmarkerHelper
-import com.example.formfit.ui.feedback.FeedbackActivity
+import com.example.formfit.ui.feedback.FeedbackPullupActivity
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -89,7 +89,7 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
         }
 
         readMoreButton.setOnClickListener {
-            val intent = Intent(this, FeedbackActivity::class.java)
+            val intent = Intent(this, FeedbackPullupActivity::class.java)
             startActivity(intent)
         }
 
