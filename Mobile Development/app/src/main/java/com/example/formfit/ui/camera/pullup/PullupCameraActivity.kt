@@ -1,6 +1,7 @@
 package com.example.formfit.ui.camera.pullup
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -24,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.formfit.R
 import com.example.formfit.ui.camera.MainViewModel
 import com.example.formfit.ui.camera.OverlayView
+import com.example.formfit.ui.feedback.FeedbackActivity
 import com.example.formfit.ui.camera.pullup.PoseLandmarkerHelper
 import com.example.formfit.ui.feedback.FeedbackPullupActivity
 import com.google.mediapipe.tasks.vision.core.RunningMode
@@ -57,14 +59,28 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
     private lateinit var feedback_ROM: TextView
     private lateinit var feedback_counter: TextView
 
-    private var isPushUpDown = false
-    private var pushUpCount = 0
+    private var pullUpCount = 0
+    private var currentState : String = String()
 
     private val countdownHandler = Handler(Looper.getMainLooper())
     private var countdownSeconds = 10
     private lateinit var countdownTextView: TextView
 
     private var isAnalyzing = false
+    private var startPredicting = false
+    private var isUP = false
+
+    // state sequences
+    var stateSequence : MutableList<String> = mutableListOf<String>()
+
+    // Var detail feedback
+    var detailFeedback : MutableList<IntArray> = mutableListOf<IntArray>()
+
+    var counterGrip : MutableList<Int> = mutableListOf(0,0,0)
+    var counterROM : Int = 0
+    var counterMomentum : MutableList<Int> = mutableListOf(0,0)
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +106,7 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
 
         readMoreButton.setOnClickListener {
             val intent = Intent(this, FeedbackPullupActivity::class.java)
+            intent.putExtra("repetitionResults", detailFeedback.toTypedArray())
             startActivity(intent)
         }
 
@@ -136,7 +153,10 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
         val cameraProvider = cameraProvider
             ?: throw IllegalStateException("Camera initialization failed.")
 
-        val cameraSelector = CameraSelector.Builder().requireLensFacing(cameraFacing).build()
+        // Mengatur CameraSelector untuk kamera depan (front-facing camera)
+        val cameraSelector = CameraSelector.Builder()
+            .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+            .build()
 
         preview = Preview.Builder()
             .setTargetRotation(previewView.display.rotation)
@@ -166,6 +186,7 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
             Log.e(TAG, "Use case binding failed", exc)
         }
     }
+
 
     private fun detectPose(imageProxy: ImageProxy) {
         if (::poseLandmarkerHelper.isInitialized && isAnalyzing) {
@@ -204,6 +225,7 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResults(resultBundle: PoseLandmarkerHelper.ResultBundle) {
         runOnUiThread {
             if (::overlay.isInitialized) {
@@ -218,13 +240,66 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
                 )
                 overlay.invalidate()
 
-                if (resultBundle.predictionROM == "ROM") {
-                    isPushUpDown = true
-                } else if (resultBundle.predictionROM == "NO ROM" && isPushUpDown) {
-                    pushUpCount++
-                    isPushUpDown = false
-                    feedback_counter.text = "Push-Up Count: $pushUpCount"
+                // counter Repetisi
+                currentState = resultBundle.predictionState
+                updateStateSequence(currentState)
+
+                if (currentState == "down") {
+                    startPredicting = true
                 }
+
+                // counter all label given
+                if (startPredicting) {
+                    // GRIP COUNTER
+                    if (resultBundle.predictionGrip == "Posisi Grip: Benar") {
+                        counterGrip[0]++
+                    } else if (resultBundle.predictionGrip == "Posisi Grip: Terlalu Lebar!, Kecilkan grip anda") {
+                        counterGrip[1]++
+                    } else if (resultBundle.predictionGrip == "Posisi Grip: Terlalu Dekat!, Lebarkan grip anda") {
+                        counterGrip[2]++
+                    }
+
+
+                    if (isUP) {
+                        if (resultBundle.predictionROM == "Range of Motion : FULL ROM" && currentState == "down") {
+                            counterROM = 1
+                            isUP = false
+                        } else if (resultBundle.predictionROM == "Range of Motion : Kurang Naik / Kurang Turun!" && currentState == "down") {
+                            counterROM = 0
+                        }
+                    } else {
+                        // ROM COUNTER at UP POSITION
+                        if (resultBundle.predictionROM == "Range of Motion : FULL ROM" && currentState == "up") {
+                            isUP = true
+                        } else if (resultBundle.predictionROM == "Range of Motion : Kurang Naik / Kurang Turun!" && currentState == "up") {
+                            counterROM = 0
+                        }
+                    }
+
+                    // Momentum Counter
+                    if (resultBundle.predictionMomentum == "Mengayun : Bagus, tubuh lurus dan stabil!") {
+                        counterMomentum[0]++
+                    } else if (resultBundle.predictionMomentum == "Mengayun : Anda mengayun, kontrol gerakan anda!") {
+                        counterMomentum[1]++
+                    }
+                }
+
+
+                if (currentState == "down") {
+                    if(stateSequence.size == 4) {
+
+                        val idxCounterGrip = counterGrip.indexOf(counterGrip.maxOrNull())
+                        val idxCounterROM = counterROM
+                        val idxCounterMomentum = counterMomentum.indexOf(counterMomentum.maxOrNull())
+                        detailFeedback.add(intArrayOf(idxCounterGrip, idxCounterROM, idxCounterMomentum))
+
+                        Log.d(TAG, "$detailFeedback")
+
+                        pullUpCount++
+                        stateSequence.clear()
+                    }
+                }
+                feedback_counter.text = "Jumlah Repetisi : $pullUpCount"
             }
         }
     }
@@ -232,6 +307,26 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
     override fun onError(error: String, errorCode: Int) {
         runOnUiThread {
             Toast.makeText(this, "Error: $error", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateStateSequence(state: String) {
+        if (state == "down") {
+            if (stateSequence.size == 0) {
+                stateSequence.add(state)
+            }
+        } else if (state == "trans") {
+            if (
+                !("up" in stateSequence) && (stateSequence.count { it == "trans" } == 0) && (stateSequence.count { it == "down" } == 1) ||
+                ("up" in stateSequence) && (stateSequence.count { it == "trans" } == 1 && (stateSequence.count { it == "down" } == 1))
+                )
+            {
+                stateSequence.add(state)
+            }
+        } else if (state == "up") {
+            if (!(state in stateSequence) && ("trans" in stateSequence)) {
+                stateSequence.add(state)
+            }
         }
     }
 }

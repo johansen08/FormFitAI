@@ -1,0 +1,222 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.profile.EditProfileActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" >
+
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/FormFitAI"
+            android:text="FormFitAI"/>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_user"
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/toolbar"
+        app:cardCornerRadius="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="@color/FormFitAI">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <ImageButton
+                android:id="@+id/avatar_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/circle_background"/>
+
+            <TextView
+                android:id="@+id/greeting_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_toEndOf="@id/avatar_image"
+                android:layout_marginTop="10dp"
+                android:text="Halo"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:textSize="24sp"
+                android:layout_alignParentRight="true"
+                android:textColor="@android:color/white"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/avatar_image"
+                android:layout_below="@+id/greeting_text"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/text_nama"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/cardview_user"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="30dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_nama"
+        android:hint="type your name"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/text_input_name"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="15dp"/>
+
+    <CheckBox
+        android:id="@+id/checkbox_gender1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Laki-laki"
+        android:textSize="16sp"
+        android:layout_below="@+id/text_gender"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="35dp"/>
+
+    <CheckBox
+        android:id="@+id/checkbox_gender2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Perempuan"
+        android:textSize="16sp"
+        android:layout_below="@+id/checkbox_gender1"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="35dp"/>
+
+    <TextView
+        android:id="@+id/text_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weight (in kg)"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/checkbox_gender2"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="15dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_weight"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_weight"
+        android:hint="type your weight"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Height (in cm)"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@id/text_input_weight"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="15dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_height"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_height"
+        android:hint="type your height"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="265dp"
+        android:layout_height="61dp"
+        android:layout_below="@+id/text_input_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/button"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Save"
+        android:textSize="20sp" />
+
+</RelativeLayout>

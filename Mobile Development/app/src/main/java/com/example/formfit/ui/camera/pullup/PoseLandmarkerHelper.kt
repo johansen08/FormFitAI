@@ -186,16 +186,17 @@ class PoseLandmarkerHelper(
         val finishTimeMs = SystemClock.uptimeMillis()
         val inferenceTime = finishTimeMs - result.timestampMs()
 
-        // Up and Down Analysis
-        val labelROM = getLabelFromModel(result, "model_ROM.tflite")
-        val predictionROM = if (labelROM > 0.5) "Range of Motion : FULL ROM " else "Range of Motion : Kurang Naik / Kurang Turun!"
+        val threshold: Float = 0.5f // Misalkan nilai threshold untuk menentukan posisi benar
+
+        // ROM Analysis
+        val labelROM = getLabelFromModel(result)
+        val predictionROM = if (labelROM > 0.5) "Range of Motion : FULL ROM" else "Range of Motion : Kurang Naik / Kurang Turun!"
 
         // GRIP Analysis
         val predictionGripLabel = getGripType(result, thresholds = 1.5, koef = 0.5);
-
         val predictionGrip = when (predictionGripLabel) {
             0 -> {
-                "Posisi Grip: Benar " // Jika posisi benar
+                "Posisi Grip: Benar" // Jika posisi benar
             }
             1 -> {
                 "Posisi Grip: Terlalu Lebar!, Kecilkan grip anda" // Jika posisi benar
@@ -207,8 +208,6 @@ class PoseLandmarkerHelper(
                 "Posisikan kamera dengan tepat"
             }
         }
-
-        val threshold: Float = 0.5f // Misalkan nilai threshold untuk menentukan posisi benar
 
         // Momentum Used Analysis
         val momentumLabel = getMomentumLabel(result)
@@ -226,15 +225,22 @@ class PoseLandmarkerHelper(
                 "Mengayun : Anda mengayun, kontrol gerakan anda!"// Jika posisi salah
             }
         }
+
+        val predictionState = getStateLabel(result)
+
         val feedbackText = "$predictionROM\n" +
                 "$predictionGrip\n" +
-                "$predictionMomentum\n"
+                "$predictionMomentum\n" +
+                "$predictionState\n"
+
 
         // Simpan teks ke SharedPreferences
         saveFeedback(feedbackText)
         Log.d(TAG, "$predictionROM\n")
         Log.d(TAG, "$predictionGrip\n")
         Log.d(TAG, "$predictionMomentum\n")
+        Log.d(TAG, "$predictionState\n")
+
         poseLandmarkerHelperListener?.onResults(
             ResultBundle(
                 listOf(result),
@@ -243,21 +249,21 @@ class PoseLandmarkerHelper(
                 input.width,
                 predictionROM,
                 predictionGrip,
-                predictionMomentum
+                predictionMomentum,
+                predictionState
             )
         )
     }
 
-    private fun getLabelFromModel(result: PoseLandmarkerResult, modelFileName: String): Float {
+    private fun getLabelFromModel(result: PoseLandmarkerResult): Float {
         // Obtain relevant landmarks from PoseLandmarkerResult
         val landmarks = result.worldLandmarks()
-        val inputArray: FloatArray = when (modelFileName) {
-            "model_ROM.tflite" -> prepareInputData(landmarks!!)
-            else -> throw IllegalArgumentException("Unsupported model file name: $modelFileName")
-        }
+        val inputArray: FloatArray = prepareInputData(landmarks!!)
+
+        val modelName  : String = "model_ROM.tflite"
 
         // Load TensorFlow Lite model
-        val interpreter = Interpreter(loadModelFile(modelFileName))
+        val interpreter = Interpreter(loadModelFile(modelName))
         val outputSize = interpreter.getOutputTensor(0).shape()[1];
 
         // Prepare output array for TensorFlow Lite model
@@ -269,7 +275,7 @@ class PoseLandmarkerHelper(
         // Ensure outputArray is populated correctly
         if (outputArray.isNotEmpty() && outputArray[0].isNotEmpty()) {
             val label = outputArray[0][0]
-            Log.d(TAG, "Predicted label: $outputArray")
+            Log.d(TAG, "Predicted label: $label")
             return label
         } else {
             throw RuntimeException("TensorFlow Lite output is empty or invalid.")
@@ -309,7 +315,6 @@ class PoseLandmarkerHelper(
                 return label
             } else {
                 throw RuntimeException("TensorFlow Lite output is empty or invalid.")
-                return null
             }
         } else {
             return null
@@ -368,6 +373,78 @@ class PoseLandmarkerHelper(
         return gripType
     }
 
+    private fun getStateLabel(result: PoseLandmarkerResult) : String{
+        // variabel for save coordinate
+        val leftWrist = mutableListOf<Float>()
+        val rightWrist = mutableListOf<Float>()
+
+        val leftShoulder = mutableListOf<Float>()
+        val rightShoulder = mutableListOf<Float>()
+
+        val leftAnkle = mutableListOf<Float>()
+        val rightAnkle = mutableListOf<Float>()
+
+        val leftElbow = mutableListOf<Float>()
+        val rightElbow = mutableListOf<Float>()
+
+        // coordinate index
+        val wristsIndex = listOf(15, 16) // 15 for left wrist, 16 for right wrist
+        val shouldersIndex = listOf(11, 12) // 11 for left wrist, 12 for right wrist
+        val anklesIndex = listOf(27, 28) // 27 for left ankle, 28 for right ankle
+        val elbowsIndex = listOf(13, 14) // 13 for left elbow, 14 for right elbow
+
+
+        // Extract coordinate needed
+        for (landmarkList in result.worldLandmarks()) {
+            if (landmarkList != null) {
+                leftWrist.add(landmarkList[wristsIndex[0]].x())
+                leftWrist.add(landmarkList[wristsIndex[0]].y())
+                rightWrist.add(landmarkList[wristsIndex[1]].x())
+                rightWrist.add(landmarkList[wristsIndex[1]].y())
+
+                leftShoulder.add(landmarkList[shouldersIndex[0]].x())
+                leftShoulder.add(landmarkList[shouldersIndex[0]].y())
+                rightShoulder.add(landmarkList[shouldersIndex[1]].x())
+                rightShoulder.add(landmarkList[shouldersIndex[1]].y())
+
+                leftAnkle.add(landmarkList[anklesIndex[0]].x())
+                leftAnkle.add(landmarkList[anklesIndex[0]].y())
+                rightAnkle.add(landmarkList[anklesIndex[1]].x())
+                rightAnkle.add(landmarkList[anklesIndex[1]].y())
+
+                leftElbow.add(landmarkList[elbowsIndex[0]].x())
+                leftElbow.add(landmarkList[elbowsIndex[0]].y())
+                rightElbow.add(landmarkList[elbowsIndex[1]].x())
+                rightElbow.add(landmarkList[elbowsIndex[1]].y())
+            }
+        }
+
+        // Determine to use left or right coordinate
+        val dist_wrist_to_ankle_right = Math.abs(rightWrist[1] - rightAnkle[1])
+        val dist_wrist_to_ankle_left = Math.abs(leftWrist[1] - leftAnkle[1])
+
+        if (dist_wrist_to_ankle_left < dist_wrist_to_ankle_right) {
+            // we use left coordinate
+            return getState(leftWrist, leftElbow, leftShoulder)
+        } else {
+            // we use right coordinate
+            return getState(rightWrist, rightElbow, rightShoulder)
+        }
+    }
+
+    private fun getState(wrist: List<Float>, elbow: List<Float>, shoulder: List<Float>, angleThres : Array<Int> = arrayOf(90, 150)) : String{
+        val angleElbow : Float = hitungSudut(wrist, elbow, shoulder)
+        var state : String = ""
+        if (angleElbow >= angleThres[1]) {
+            state = "down"
+        } else if (angleElbow > angleThres[0] && angleElbow < angleThres[1]) {
+            state = "trans"
+        } else if (angleElbow <= angleThres[1]) {
+            state = "up"
+        }
+
+        return state
+    }
 
     private fun prepareInputData(landmarks: MutableList<MutableList<Landmark>?>?): FloatArray {
 
@@ -462,6 +539,7 @@ class PoseLandmarkerHelper(
         val predictionROM: String,
         val predictionGrip: String,
         val predictionMomentum: String,
+        val predictionState: String
     )
 
     interface LandmarkerListener {
