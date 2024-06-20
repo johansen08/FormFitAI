@@ -25,7 +25,7 @@ import com.example.formfit.R
 import com.example.formfit.ui.camera.MainViewModel
 import com.example.formfit.ui.camera.OverlayView
 import com.example.formfit.ui.camera.pullup.PoseLandmarkerHelper
-import com.example.formfit.ui.feedback.FeedbackActivity
+import com.example.formfit.ui.feedback.FeedbackPullupActivity
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -89,7 +89,7 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
         }
 
         readMoreButton.setOnClickListener {
-            val intent = Intent(this, FeedbackActivity::class.java)
+            val intent = Intent(this, FeedbackPullupActivity::class.java)
             startActivity(intent)
         }
 
@@ -136,7 +136,10 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
         val cameraProvider = cameraProvider
             ?: throw IllegalStateException("Camera initialization failed.")
 
-        val cameraSelector = CameraSelector.Builder().requireLensFacing(cameraFacing).build()
+        // Mengatur CameraSelector untuk kamera depan (front-facing camera)
+        val cameraSelector = CameraSelector.Builder()
+            .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+            .build()
 
         preview = Preview.Builder()
             .setTargetRotation(previewView.display.rotation)
@@ -166,6 +169,7 @@ class PullupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
             Log.e(TAG, "Use case binding failed", exc)
         }
     }
+
 
     private fun detectPose(imageProxy: ImageProxy) {
         if (::poseLandmarkerHelper.isInitialized && isAnalyzing) {
