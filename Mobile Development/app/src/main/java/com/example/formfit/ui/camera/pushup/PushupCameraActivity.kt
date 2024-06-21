@@ -147,7 +147,7 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
 
         // Mengatur CameraSelector untuk kamera depan (front-facing camera)
         val cameraSelector = CameraSelector.Builder()
-            .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
             .build()
 
         preview = Preview.Builder()
@@ -232,100 +232,63 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
                 val handDistance = resultBundle.handDistance
                 val headAngle = resultBundle.headAngle
                 val elbowAngle = resultBundle.elbowAngle
-                val labelUpDown = resultBundle.labelUpDown
-                if (labelUpDown >= 0.8 && elbowAngle >= 90) {
-                    if (hipAngle >= 160 && handDistance <= 1.3 && headAngle >= 140 && isPushUpDown) {
-                        stage2 = true
-                        hipPositionList.add(hipAngle)
-                        handPositionList.add(handDistance)
-                        headPositionList.add(headAngle)
-                        feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
-                        feedback_hand_position.text = "Tangan: Benar %.2f".format(handDistance)
-                        feedback_head_position.text = "Kepala: Benar %.2f".format(headAngle)
-                        isPushUpDown = false
-                    } else if (isPushUpDown){
-                        stage1 = true
-                        hipPositionList.add(hipAngle)
-                        handPositionList.add(handDistance)
-                        headPositionList.add(headAngle)
-                        feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
-                        feedback_hand_position.text = "Tangan: Salah %.2f".format(handDistance)
-                        feedback_head_position.text = "Kepala: Salah %.2f".format(headAngle)
-                        isPushUpDown = false
-                    }
 
-                } else if (labelUpDown <= 0.2 && elbowAngle < 90) {
-                    if (hipAngle >= 160 && handDistance <= 1.3 && headAngle >= 140 && !isPushUpDown) {
-                        stage3 = true
-                        hipPositionList.add(hipAngle)
-                        handPositionList.add(handDistance)
-                        headPositionList.add(headAngle)
-                        feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
-                        feedback_hand_position.text = "Tangan: Benar %.2f".format(handDistance)
-                        feedback_head_position.text = "Kepala: Benar %.2f".format(headAngle)
-                        isPushUpDown = true
-                    } else if (!isPushUpDown){
-                        stage4 = true
-                        hipPositionList.add(hipAngle)
-                        handPositionList.add(handDistance)
-                        headPositionList.add(headAngle)
-                        feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
-                        feedback_hand_position.text = "Tangan: Salah %.2f".format(handDistance)
-                        feedback_head_position.text = "Kepala: Salah %.2f".format(headAngle)
-                        isPushUpDown = true
-                    }
-                    if (stage2 && stage3) {
-                        pushUpCountCorrect++
+                if (elbowAngle >= 100 && isPushUpDown) {
+                    stage1 = true
+                    hipPositionList.add(hipAngle)
+                    handPositionList.add(handDistance)
+                    headPositionList.add(headAngle)
+
+                    feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
+                    feedback_hand_position.text = if (handDistance <= 1.3) "Tangan: Benar %.2f".format(handDistance) else "Tangan: Salah %.2f".format(handDistance)
+                    feedback_head_position.text = if (headAngle >= 140) "Kepala: Benar %.2f".format(headAngle) else "Kepala: Salah %.2f".format(headAngle)
+
+                    isPushUpDown = false
+                } else if (elbowAngle < 100 && !isPushUpDown) {
+                    stage2 = true
+                    hipPositionList.add(hipAngle)
+                    handPositionList.add(handDistance)
+                    headPositionList.add(headAngle)
+
+                    feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
+                    feedback_hand_position.text = if (handDistance <= 1.3) "Tangan: Benar %.2f".format(handDistance) else "Tangan: Salah %.2f".format(handDistance)
+                    feedback_head_position.text = if (headAngle >= 140) "Kepala: Benar %.2f".format(headAngle) else "Kepala: Salah %.2f".format(headAngle)
+
+                    if (stage1 && stage2) {
                         val hipPos = hipPositionList.average().toFloat()
                         val handPos = handPositionList.average().toFloat()
                         val headPos = headPositionList.average().toFloat()
 
-                        if (!hipPos.isNaN() && !handPos.isNaN() && !headPos.isNaN()) {
-                            val resultArray = floatArrayOf(hipPos, handPos, headPos, pushUpCountCorrect.toFloat(), pushUpCountWrong.toFloat())
+                        if (hipAngle >= 160 && handDistance <= 1.3 && headAngle >= 140) {
+                            pushUpCountCorrect++
+                        } else {
+                            pushUpCountWrong++
+                        }
+
+                        if (!hipAngle.isNaN() && !handDistance.isNaN() && !headAngle.isNaN()) {
+                            val resultArray = floatArrayOf(hipAngle, handDistance, headAngle, pushUpCountCorrect.toFloat(), pushUpCountWrong.toFloat())
                             repetitionResults.add(resultArray)
                             Log.d("TEST", "Result Array: ${resultArray.contentToString()}")
                         }
 
-                        if (!isPushUpDown) {
-                            hipPositionList.clear()
-                            handPositionList.clear()
-                            headPositionList.clear()
-                        }
-                    } else if (stage1 && stage4){
-                        pushUpCountWrong++
-                        val hipPos = hipPositionList.average().toFloat()
-                        val handPos = handPositionList.average().toFloat()
-                        val headPos = headPositionList.average().toFloat()
-
-                        if (!hipPos.isNaN() && !handPos.isNaN() && !headPos.isNaN()) {
-                            val resultArray = floatArrayOf(hipPos, handPos, headPos, pushUpCountCorrect.toFloat(), pushUpCountWrong.toFloat())
-                            repetitionResults.add(resultArray)
-                            Log.d("TEST", "Result Array: ${resultArray.contentToString()}")
-                        }
-
-                        if (!isPushUpDown) {
-                            hipPositionList.clear()
-                            handPositionList.clear()
-                            headPositionList.clear()
-                        }
+                        // Reset stages after counting a push-up
+                        stage1 = false
+                        stage2 = false
+                        hipPositionList.clear()
+                        handPositionList.clear()
+                        headPositionList.clear()
                     }
-
-                    // Reset stages after counting a squat
-                    stage1 = false
-                    stage2 = false
-                    stage3 = false
-                    stage4 = false
 
                     isPushUpDown = true
-
                 }
 
-                // Update the squat counts
+                // Update the push-up counts
                 pushUpCountCorrectTextView.text = "Push-up Benar: $pushUpCountCorrect"
                 pushUpCountWrongTextView.text = "Push-up Salah: $pushUpCountWrong"
             }
         }
     }
+
 
     override fun onError(error: String, errorCode: Int) {
         runOnUiThread {

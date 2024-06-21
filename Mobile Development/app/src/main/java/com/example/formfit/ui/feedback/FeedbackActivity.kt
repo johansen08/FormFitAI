@@ -69,7 +69,7 @@ class FeedbackActivity : AppCompatActivity() {
 
             val feedback = StringBuilder()
             if (bottomPositionLabel == "Salah") {
-                feedback.append("Pinggul harus berada dalam rentang 165-195 derajat. ")
+                feedback.append("Pinggul harus berada dalam rentang 160-180 derajat. ")
             }
             if (handPositionLabel == "Salah") {
                 feedback.append("Rasio tangan dan bahu harus kurang dari 1.3. ")
