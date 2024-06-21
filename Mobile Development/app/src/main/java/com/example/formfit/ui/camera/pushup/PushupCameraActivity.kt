@@ -239,9 +239,9 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
                     handPositionList.add(handDistance)
                     headPositionList.add(headAngle)
 
-                    feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
-                    feedback_hand_position.text = if (handDistance <= 1.3) "Tangan: Benar %.2f".format(handDistance) else "Tangan: Salah %.2f".format(handDistance)
-                    feedback_head_position.text = if (headAngle >= 140) "Kepala: Benar %.2f".format(headAngle) else "Kepala: Salah %.2f".format(headAngle)
+                    feedback_buttom_position.text = "Pinggul: Benar"
+                    feedback_hand_position.text = if (handDistance <= 1.3) "Tangan: Benar" else "Tangan: Salah"
+                    feedback_head_position.text = if (headAngle >= 140) "Kepala: Benar" else "Kepala: Salah"
 
                     isPushUpDown = false
                 } else if (elbowAngle < 100 && !isPushUpDown) {
@@ -250,9 +250,9 @@ class PushupCameraActivity : AppCompatActivity(), PoseLandmarkerHelper.Landmarke
                     handPositionList.add(handDistance)
                     headPositionList.add(headAngle)
 
-                    feedback_buttom_position.text = "Pinggul: Benar %.2f sudut %.2f".format(hipAngle, elbowAngle)
-                    feedback_hand_position.text = if (handDistance <= 1.3) "Tangan: Benar %.2f".format(handDistance) else "Tangan: Salah %.2f".format(handDistance)
-                    feedback_head_position.text = if (headAngle >= 140) "Kepala: Benar %.2f".format(headAngle) else "Kepala: Salah %.2f".format(headAngle)
+                    feedback_buttom_position.text = "Pinggul: Benar"
+                    feedback_hand_position.text = if (handDistance <= 1.3) "Tangan: Benar" else "Tangan: Salah"
+                    feedback_head_position.text = if (headAngle >= 140) "Kepala: Benar" else "Kepala: Salah"
 
                     if (stage1 && stage2) {
                         val hipPos = hipPositionList.average().toFloat()
